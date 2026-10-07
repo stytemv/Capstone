@@ -1,0 +1,6 @@
+# Build artifacts
+*.o
+*.out
+
+# Generated kernel BTF header
+vmlinux.h
