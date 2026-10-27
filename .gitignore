@@ -1,6 +1,17 @@
-# Build artifacts
+# Compiled object files
 *.o
 *.out
 
+# Executables
+/memwatch
+/victim
+
+# Generated eBPF skeleton
+*.skel.h
+
 # Generated kernel BTF header
 vmlinux.h
+
+# Editor temporary files
+*.swp
+*~
