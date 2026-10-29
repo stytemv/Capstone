@@ -42,11 +42,37 @@ static int handle_event(void *ctx, void *data, size_t data_sz)
         return 0;
 
     if (e->type == MEM_EVENT_MMAP) {
+      /*
+      * mmap() Event 출력
+      *
+      * Ring Buffer를 통해 수신한 mem_event 구조체에서
+      * PID/TID/COMM과 mmap() 호출 인자를 출력한다.
+      *
+      * prot와 flags는 비트 플래그이므로 16진수로 출력한다.
+      * addr 역시 가상 메모리 주소이므로 16진수로 출력한다.
+      *
+      * 현재는 syscall Entry Event이므로
+      * 실제 매핑 주소 및 성공 여부는 출력하지 않는다.
+      */
         printf("[MMAP] TIME=%llu PID=%u TID=%u COMM=%s\n",
                (unsigned long long)e->timestamp_ns,
                e->pid,
                e->tid,
                e->comm);
+
+        printf("       addr=0x%llx length=%llu\n",
+               (unsigned long long)e->addr,
+               (unsigned long long)e->length);
+
+        printf("       prot=0x%llx flags=0x%llx\n",
+               (unsigned long long)e->prot,
+               (unsigned long long)e->flags);
+
+        printf("       fd=%lld offset=%llu\n",
+               (long long)e->fd,
+               (unsigned long long)e->offset);
+    
+    
     }
 
     return 0;

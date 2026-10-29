@@ -27,6 +27,22 @@ struct mem_event {
     __u32 reserved;         // 구조체 정렬을 위한 예약 영역
 
     char comm[16];          // 프로세스 실행 이름 (TASK_COMM_LEN)
+
+/*
+* mmap() Arguments
+*
+* sys_enter_mmap Tracepoint에서 수집한 syscall 인자.
+*
+* 현재는 mmap()이 요청한 정보만 저장.
+* 실제 매핑 주소와 성공 여부는 sys_exit_mmap에서 확인해야 한다.
+*/
+    __u64 addr;             // 요청한 가상 메모리 주소 (mmap 첫 번째 인자)
+    __u64 length;           // 매핑할 메모리 크기 (bytes)
+    __u64 prot;             // 요청한 메모리 접근 권한 (PROT_READ 등)
+    __u64 flags;            // 매핑 방식 (MAP_PRIVATE, MAP_ANONYMOUS 등)
+    __s64 fd;               // File Descriptor, anonymous mapping에서는 일반적으로 -1
+    __u64 offset;           // File-backed mapping의 파일 시작 오프셋
+
 };
 
 #endif
